@@ -42,9 +42,8 @@ let questions = [{
 let currentQuestion = 0;
 
 function init() {
-    let anzahl = 1;
-    document.getElementById('Numberquestion').innerHTML += /*html*/ `<p> <b> ${anzahl} </b> von <b> ${questions.length}  </p>
-         <button type="button" class="btn btn-primary">nächste Frage</button> `;
+    document.getElementById('Numberquestion').innerHTML = questions.length;
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
     showQuestion()
 }
 
@@ -58,6 +57,35 @@ function showQuestion() {
 }
 
 function answer(selection) {
+    let question = questions[currentQuestion];
+    let selectedQuestionNumber = selection.slice(-1);
+    let idOfRightAnswer = `answer_${question['right_answer']}`;
+    if (selectedQuestionNumber == question['right_answer']) {
+        document.getElementById(selection).parentNode.classList.add('bg-success');
+    } else {
+        document.getElementById(selection).parentNode.classList.add('bg-danger');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+    }
+    document.getElementById('next-button').disabled = false;
+}
 
+function nextQuestion() {
 
+    currentQuestion++;
+    document.getElementById('next-button').disabled = true;
+    refreshStyleAnswerButtons();
+    showQuestion();
+    init();
+
+}
+
+function refreshStyleAnswerButtons() {
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
 }
